@@ -1,1 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANIMATED MOVIES</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: Arial, sans-serif; /* Standard font */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: transparent; /* Fully transparent background */
+            color: black; /* Standard text color */
+            text-align: center;
+        }
+
+        #quiz-container {
+            background-color: transparent; /* Fully transparent container */
+            padding: 20px;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        #logo {
+            width: 150px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .question {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .answer {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: white; /* Change the answer color to white */
+        }
+
+        #next-button {
+            background-color: white; /* Change background color to white */
+            color: black; /* Change text color to black for visibility */
+            border: 2px solid #ff9900; /* Optional: Add a border for better visibility */
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease-in-out;
+        }
+
+        #next-button:hover {
+            background-color: #ffcc00; /* Change hover color for better effect */
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .fadeOut {
+            animation: fadeOut 0.5s forwards;
+        }
+
+        .fadeIn {
+            animation: fadeIn 0.5s forwards;
+        }
+    </style>
+</head>
+<body>
+
+<div id="quiz-container">
+    <img id="logo" src="https://i.imgur.com/cyZ0Z21.png" alt="George Michael Logo">
+    <h1>ANIMATED MOVIES</h1>
+    <div id="question-container">
+        <div class="question" id="question">Loading question...</div>
+        <div class="answer" id="answer">Loading answer...</div>
+        <button id="next-button" onclick="nextQuestion()">Next Question</button>
+    </div>
+</div>
+
+<script>
+    // Question and answers data
+    const quizData = [
+        { question: "Which animated film features a character named Simba?", answer: "The Lion King" },
+        { question: "In which film does a toy cowboy named Woody appear?", answer: "Toy Story" },
+        { question: "What is the name of the fish that gets lost in 'Finding Nemo'?", answer: "Nemo" },
+        { question: "In which movie does a princess named Elsa sing 'Let It Go'?", answer: "Frozen" },
+        { question: "Which film features a robot named WALL-E?", answer: "WALL-E" },
+        { question: "What is the name of the blue fish in 'Finding Dory'?", answer: "Dory" },
+        { question: "Which film features a family of superheroes known as the Incredibles?", answer: "The Incredibles" },
+        { question: "Who is the main character in 'Aladdin'?", answer: "Aladdin" },
+        { question: "In which movie does a young girl named Moana sail across the ocean?", answer: "Moana" },
+        { question: "What is the name of the red panda in 'Turning Red'?", answer: "Mei Lee" },
+        { question: "In 'Zootopia', what is the profession of Judy Hopps?", answer: "Police Officer" },
+        { question: "Which film is about a rat who dreams of becoming a chef?", answer: "Ratatouille" },
+        { question: "What type of animal is Bambi?", answer: "Deer" },
+        { question: "In 'Tangled', what is the name of the princess with magical hair?", answer: "Rapunzel" },
+        { question: "Which film features a talking snowman named Olaf?", answer: "Frozen" },
+        { question: "What is the name of the dinosaur in 'The Good Dinosaur'?", answer: "Arlo" },
+        { question: "Who is the main character in 'Coco' who travels to the Land of the Dead?", answer: "Miguel" },
+        { question: "In 'Beauty and the Beast', who is the Beast's enchanted servant who turns into a clock?", answer: "Cogsworth" },
+        { question: "What is the name of the whale in 'Pinocchio'?", answer: "Monstro" },
+        { question: "In 'How to Train Your Dragon', what is the name of the dragon trainer?", answer: "Hiccup" },
+        { question: "Which film features a character named Lightning McQueen?", answer: "Cars" },
+        { question: "In 'Kung Fu Panda', what is the name of the main character?", answer: "Po" },
+        { question: "What is the name of the lion cub who is the future king in 'The Lion King'?", answer: "Simba" },
+        { question: "In 'The Little Mermaid', what is the name of the sea witch?", answer: "Ursula" },
+        { question: "Which animated film features a character named Mulan?", answer: "Mulan" },
+        { question: "In 'Alice in Wonderland', who is the queen with the catchphrase 'Off with their heads!'?", answer: "The Queen of Hearts" },
+        { question: "What is the name of the bear who loves honey in 'Winnie the Pooh'?", answer: "Winnie the Pooh" },
+        { question: "In 'Despicable Me', what are the names of the yellow, Minion characters?", answer: "Minions" },
+        { question: "What is the name of the princess in 'Sleeping Beauty'?", answer: "Aurora" },
+        { question: "In 'Madagascar', which character is a lion?", answer: "Alex" },
+        { question: "Which film features a toy that thinks it is still a cowboy in 'Toy Story'?", answer: "Woody" },
+        { question: "What is the name of the blue alien in 'Lilo & Stitch'?", answer: "Stitch" },
+        { question: "In 'The Lion King', who is Simba's father?", answer: "Mufasa" },
+        { question: "Which film features a rat who becomes a chef?", answer: "Ratatouille" },
+        { question: "What is the name of the lovable robot in 'Big Hero 6'?", answer: "Baymax" },
+        { question: "In 'How to Train Your Dragon', what is the name of Hiccup's dragon?", answer: "Toothless" },
+        { question: "What is the name of the main character in 'Moana'?", answer: "Moana" },
+        { question: "In 'The Incredibles', what is the name of the superhero family?", answer: "The Incredibles" },
+        { question: "Which film features a young girl who travels to a magical land through a tornado?", answer: "The Wizard of Oz" },
+        { question: "What is the name of the fish who is lost in 'Finding Nemo'?", answer: "Nemo" },
+        { question: "In 'Cinderella', what does Cinderella lose at the ball?", answer: "Her glass slipper" },
+        { question: "Which film features a brave princess named Merida?", answer: "Brave" },
+        { question: "In 'Pocahontas', what is the name of the Native American princess?", answer: "Pocahontas" },
+        { question: "What is the name of the horse in 'Frozen'?", answer: "Sven" },
+        { question: "Which film features a family of superheroes who are trying to live a normal life?", answer: "The Incredibles" },
+        { question: "What is the name of the animated film about a friendly ghost?", answer: "Casper" },
+        { question: "In 'The Lion King', who is Simba's uncle?", answer: "Scar" },
+        { question: "Which film features a talking raccoon named Rocket?", answer: "Guardians of the Galaxy" },
+        { question: "What is the name of the animated film about a young boy who befriends a giant robot?", answer: "The Iron Giant" },
+        { question: "In 'Alice in Wonderland', who is the mad character that loves tea parties?", answer: "The Mad Hatter" },
+        { question: "What is the name of the princess in 'The Princess and the Frog'?", answer: "Tiana" },
+        { question: "Which film features a character named Jack-Jack?", answer: "The Incredibles" },
+        { question: "What is the name of the raccoon in 'Pocahontas'?", answer: "Meeko" },
+        { question: "In 'Frozen', what is the name of Elsa's sister?", answer: "Anna" },
+        { question: "Which film features a character named Dumbo?", answer: "Dumbo" },
+        { question: "In 'Tangled', what is the name of Rapunzel's chameleon friend?", answer: "Pascal" },
+        { question: "What is the name of the princess who kisses a frog in 'The Princess and the Frog'?", answer: "Tiana" },
+        { question: "Which film features a character named Shrek?", answer: "Shrek" },
+        { question: "In 'Moana', what is the name of the demigod who helps Moana?", answer: "Maui" },
+        { question: "What is the name of the character who can see ghosts in 'The Sixth Sense'?", answer: "Cole" },
+        { question: "Which animated film features a character named Jack Skellington?", answer: "The Nightmare Before Christmas" },
+        { question: "In 'Finding Dory', what is the name of Dory's friend who helps her?", answer: "Marlin" },
+        { question: "What is the name of the princess in 'Aladdin'?", answer: "Jasmine" },
+        { question: "Which film features a talking dog named Dug?", answer: "Up" },
+        { question: "In 'Zootopia', who is the bunny police officer?", answer: "Judy Hopps" },
+        { question: "What is the name of the monster who helps children in 'Monsters, Inc.'?", answer: "Sully" },
+        { question: "Which film features a character named Kevin who is a bird?", answer: "Up" },
+        { question: "What is the name of the girl who befriends a dragon in 'How to Train Your Dragon'?", answer: "Astrid" },
+        { question: "Which animated film features a character named Belle?", answer: "Beauty and the Beast" },
+        { question: "In 'The Jungle Book', what is the name of the bear who befriends Mowgli?", answer: "Baloo" },
+        { question: "What is the name of the character who has a magical lamp in 'Aladdin'?", answer: "Genie" },
+        { question: "Which film features a young girl who loves science and discovers her own world?", answer: "Big Hero 6" },
+        { question: "What is the name of the animated film about a boy who builds a giant robot?", answer: "The Iron Giant" },
+        { question: "In 'Tangled', what is the name of the thief who helps Rapunzel escape?", answer: "Flynn Rider" },
+        { question: "What is the name of the bear who loves honey in 'Winnie the Pooh'?", answer: "Winnie the Pooh" },
+        { question: "Which film features a character named Puss in Boots?", answer: "Shrek" },
+        { question: "What is the name of the raccoon in 'Pocahontas'?", answer: "Meeko" },
+        { question: "Which film features a character named Mowgli?", answer: "The Jungle Book" },
+        { question: "In 'Frozen', what is the name of the ice mountain that Elsa creates?", answer: "Arendelle" },
+        { question: "Which film features a young girl who can control fire?", answer: "The Last Airbender" },
+        { question: "In 'Moana', what is the name of the island that Moana wants to save?", answer: "Motunui" },
+        { question: "What is the name of the character who is a dragon in 'Mulan'?", answer: "Mushu" },
+        { question: "Which film features a character named Marahute, a giant golden eagle?", answer: "The Rescuers Down Under" },
+        { question: "In 'The Lion King', who is Simba's friend who is a meerkat and warthog?", answer: "Timon and Pumbaa" },
+        { question: "What is the name of the fish who is lost in 'Finding Nemo'?", answer: "Nemo" },
+        { question: "Which film features a character named Jack Jack?", answer: "The Incredibles" },
+        { question: "In 'Toy Story', what is the name of the toy space ranger?", answer: "Buzz Lightyear" },
+        { question: "Which film features a character named Pongo?", answer: "101 Dalmatians" },
+        { question: "What is the name of the animated film featuring a magical land of animals?", answer: "Zootopia" },
+        { question: "In 'Coco', what is the name of the Land of the Dead?", answer: "Mictlan" },
+        { question: "Which film features a character named Sir Hiss?", answer: "Robin Hood" },
+        { question: "What is the name of the animated film about a boy who wants to become a knight?", answer: "The Black Cauldron" },
+        { question: "Which film features a character named Remy?", answer: "Ratatouille" },
+        { question: "In 'The Little Mermaid', who is Ariel's love interest?", answer: "Prince Eric" },
+        { question: "What is the name of the film featuring a princess who falls into a deep sleep?", answer: "Sleeping Beauty" },
+        { question: "Which film features a character named Bambi?", answer: "Bambi" },
+        { question: "In 'The Lion King', who helps Simba reclaim his kingdom?", answer: "Nala" },
+        { question: "What is the name of the film featuring a character who is a crab named Sebastian?", answer: "The Little Mermaid" },
+        { question: "Which film features a character named Flick?", answer: "A Bug's Life" },
+        { question: "What is the name of the animated film about a dog who loves to play fetch?", answer: "Lady and the Tramp" },
+        { question: "In 'Tarzan', what is the name of the main character's gorilla mother?", answer: "Kala" },
+        { question: "Which film features a character named Duchess?", answer: "The Aristocats" },
+        { question: "What is the name of the film about a princess who is cursed to sleep until kissed by a prince?", answer: "Sleeping Beauty" },
+        { question: "In 'Up', what is the name of the boy who is an adventurer?", answer: "Russell" }
+    ];
+
+    let currentQuestionIndex = 0;
+
+    // Shuffle the quiz data
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    // Start the quiz
+    shuffle(quizData);
+    showQuestion();
+
+    function showQuestion() {
+        const questionContainer = document.getElementById("question");
+        const answerContainer = document.getElementById("answer");
+
+        questionContainer.innerText = quizData[currentQuestionIndex].question;
+        answerContainer.innerText = "Loading answer...";
+
+        // Fade in effect
+        answerContainer.classList.remove("fadeIn");
+        answerContainer.classList.add("fadeOut");
+
+        setTimeout(() => {
+            answerContainer.innerText = quizData[currentQuestionIndex].answer;
+            answerContainer.classList.remove("fadeOut");
+            answerContainer.classList.add("fadeIn");
+        }, 500);
+    }
+
+    function nextQuestion() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < quizData.length) {
+            showQuestion();
+        } else {
+            const questionContainer = document.getElementById("question");
+            const answerContainer = document.getElementById("answer");
+            questionContainer.innerText = "Thank you for playing!";
+            answerContainer.innerText = "";
+            document.getElementById("next-button").style.display = "none"; // Hide the next button
+        }
+    }
+</script>
+
+</body>
+</html>
